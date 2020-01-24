@@ -1,8 +1,8 @@
 var MongoClient = require('mongodb').MongoClient;
 //var url = "mongodb://localhost:27017/dashboardwidgets";
 var jsonfile = require('jsonfile');
-//var url = "mongodb://localhost:27017/"; 
-const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?retryWrites=true&w=majority";
+var url = "mongodb://localhost:27017/"; 
+//const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?retryWrites=true&w=majority";
 
 /* MongoClient.connect(url, function(err, db) {
   if (err) throw err;

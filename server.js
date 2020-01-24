@@ -5,15 +5,15 @@ var dashboardwidgets = require("./routes/dashboardwidgets");
 var loaddata = require("./routes/loaddata");
 var path = require("path");
 
-var AWS = require('aws-sdk');
+//var AWS = require('aws-sdk');
 
 //AWS.config.region = process.env.REGION
 
-var sns = new AWS.SNS();
-var ddb = new AWS.DynamoDB();
+//var sns = new AWS.SNS();
+//var ddb = new AWS.DynamoDB();
 
-console.log(sns)
-console.log(ddb)
+//console.log(sns)
+//console.log(ddb)
 
 var bodyParser = require('body-parser');
 //var mongo = require('mongodb');
