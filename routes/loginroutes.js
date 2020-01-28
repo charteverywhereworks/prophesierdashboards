@@ -1,13 +1,13 @@
 var MongoClient = require('mongodb').MongoClient;
 //var url = "mongodb://localhost:27017/dashboardwidgets";
 var jsonfile = require('jsonfile');
-//var url = "mongodb://localhost:27017/"; 
+var url = "mongodb://localhost:27017"; 
 //var url = "mongodb://http://ec2-18-224-138-251.us-east-2.compute.amazonaws.com:27017/"
-const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?retryWrites=true&w=majority";
+//const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?retryWrites=true&w=majority";
 
 /* MongoClient.connect(url, function(err, db) {
   if (err) throw err;
-  var dbo = db.db("mydb");
+  var dbo = db.db("test");
   var myquery = {userid: "test"};
   dbo.collection("users").deleteOne(myquery, function(err, obj) {
     if (err) throw err;
@@ -18,7 +18,7 @@ const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?r
 
 /* MongoClient.connect(url, function(err, db) {
   if (err) throw err;
-  var dbo = db.db("mydb");
+  var dbo = db.db("test");
   dbo.collection("users").drop(function(err, delOK) {
     if (err) throw err;
     if (delOK) console.log("Collection deleted");
@@ -28,7 +28,7 @@ const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?r
  */
 /* MongoClient.connect(url, function(err, db) {
   if (err) throw err;
-  var dbo = db.db("mydb");
+  var dbo = db.db("test");
   dbo.collection("users").find({}).toArray(function(err, result) {
     if (err) throw err;
     console.log("find all")
@@ -44,7 +44,7 @@ exports.register = function(req,res) {
    //save to db
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    var dbo = db.db("mydb");
+    var dbo = db.db("test");
     var myobj = { 
       "first_name":req.body.first_name,
       "last_name":req.body.last_name,
@@ -87,7 +87,7 @@ exports.checkuserlogin = function(req,res) {
   
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    var dbo = db.db("mydb");
+    var dbo = db.db("test");
     var query = { userid: userid };
     dbo.collection("users").find(query).toArray(function(err, results) {
       console.log("Here the results")
@@ -134,7 +134,7 @@ exports.login = function(req,res) {
       console.log(err)
       throw err;
     }
-    var dbo = db.db("mydb");
+    var dbo = db.db("test");
     var query = { userid: userid };
     dbo.collection("users").find(query).toArray(function(err, results) {
       console.log(results)

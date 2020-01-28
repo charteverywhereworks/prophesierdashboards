@@ -5,16 +5,6 @@ var dashboardwidgets = require("./routes/dashboardwidgets");
 var loaddata = require("./routes/loaddata");
 var path = require("path");
 
-//var AWS = require('aws-sdk');
-
-//AWS.config.region = process.env.REGION
-
-//var sns = new AWS.SNS();
-//var ddb = new AWS.DynamoDB();
-
-//console.log(sns)
-//console.log(ddb)
-
 var bodyParser = require('body-parser');
 //var mongo = require('mongodb');
 
@@ -44,20 +34,42 @@ app.use(function(req, res, next) {
 
 //express server
 
-app.use(express.static(path.join(__dirname, 'build')));
+/* app.use(express.static(path.join(__dirname, 'build')));
 
 if(process.env.NODE_ENV === 'production') {
   app.get('/*', function (req, res) {
    	res.sendFile(path.join(__dirname, 'build', 'index.html'));
   });
-}
+} */
 
+app.use(express.static(path.join(__dirname, 'build')));
 
-var router = express.Router();
+app.get('/', function (req, res) {
+    res.send("Hello World!");
+});
+
+app.get('/api', function(req, res) {
+    console.log("hitting api")
+    res.json({ message: 'welcome to prophesier API' });
+});
+
+app.post('/api/register',login.register);
+app.post('/api/login',login.login);
+app.post('/api/checkuser',dashboardwidgets.checkuser);
+app.post('/api/checkuserlogin',login.checkuserlogin);
+app.post('/api/updatedatawidgets',dashboardwidgets.updatedata);
+app.post('/api/deletedatawidgets',dashboardwidgets.deletewidget);
+app.post('/api/loaddata',loaddata.loaddata);
+app.post("/api/updatedata",loaddata.updatedata);
+app.get("/api/getdata", loaddata.getdata);
+app.get("/api/getdatawidgets", dashboardwidgets.getdata);
+
+//var router = express.Router();
 
 // test route
-router.get('/', function(req, res) {
-    res.json({ message: 'welcome to our upload module apis' });
+/* router.get('/', function(req, res) {
+    console.log("hitting api")
+    res.json({ message: 'welcome to prophesier API' });
 });
 
 //route to handle user registration
@@ -70,9 +82,12 @@ router.post('/deletedatawidgets',dashboardwidgets.deletewidget);
 router.post('/loaddata',loaddata.loaddata);
 router.post("/updatedata",loaddata.updatedata);
 router.get("/getdata", loaddata.getdata);
-router.get("/getdatawidgets", dashboardwidgets.getdata);
+router.get("/getdatawidgets", dashboardwidgets.getdata); */
 //route to handle file printing and listing
 //router.post('/fileprint',multerupload.any(),upload.fileprint);
 //router.get('/fileretrieve',upload.fileretrieve);
-app.use('/api', router);
-app.listen(4000);
+
+//app.use('/api', router);
+app.listen(4000,function(){  
+    console.log('Express app start on port 4000')  
+});

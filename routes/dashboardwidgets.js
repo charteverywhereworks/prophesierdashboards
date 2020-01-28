@@ -1,12 +1,12 @@
 var MongoClient = require('mongodb').MongoClient;
 //var url = "mongodb://localhost:27017/dashboardwidgets";
-//var url = "mongodb://localhost:27017/"; 
+var url = "mongodb://localhost:27017"; 
 //var url = "mongodb://http://ec2-18-224-138-251.us-east-2.compute.amazonaws.com:27017/"
-const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?retryWrites=true&w=majority";
+//const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?retryWrites=true&w=majority";
 
 /* MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    var dbo = db.db("mydb");
+    var dbo = db.db("test");
     dbo.collection("dashboardwidgets").drop(function(err, delOK) {
       if (err) throw err;
       if (delOK) console.log("Collection deleted");
@@ -14,20 +14,25 @@ const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?r
     });
   }); */
 
-  MongoClient.connect(url, function(err, db) {
-    if (err) throw err;
-    var dbo = db.db("mydb");
+  /* MongoClient.connect(url, function(err, db) {
+    if (err) {
+      console.log("Error connecting");
+      console.log(err);
+      throw err;
+    }
+    
+    var dbo = db.db("test");
     dbo.collection("dashboardwidgets").find({}).toArray(function(err, result) {
       if (err) throw err;
       console.log("find all")
       console.log(result);
       db.close();
     });
-  });
+  }); */
 
 /*   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    var dbo = db.db("mydb");
+    var dbo = db.db("test");
 
     dbo.collection("dashboardwidgets").find({userid: "test"}).toArray(function(err, result) {
       if (err) throw err;
@@ -41,26 +46,33 @@ const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?r
   }); */
 
   exports.checkuser = function(req,res) {
+    console.log("checkuser")
     console.log("req",req.body);
+
     const myquery = {userid: req.body.userid};
   
     MongoClient.connect(url, function(err, db) {
-      if (err) throw err;
-  
-      var dbo = db.db("mydb");
-      dbo.collection("dashboardwidgets").find(myquery).toArray(function(err, result) {
-        if (err) throw err;
-        console.log(result);
-        console.log("found!!!!!!!!!!!!")
-        console.log(result);
-        console.log(result[0])
-        console.log(result.length)
+      if (err) {
+        console.log("Error connecting Mongo");
+        throw err;
+      }
+      var dbo = db.db("test");
+      dbo.collection("dashboardwidgets").find(myquery).toArray(function(err2, result) {
+        if (err2) {
+          console.log("Error connecting Mongo");
+          throw err2;
+        }
+        
         if (result[0] && result.length === 1) {
+          console.log("dashboardwidgets success")
+          console.log(result);
           res.send({
             "code": 200,
             "success": "user found sucessfully"
           });
         } else {
+          console.log("dashboardwidgets success but empty")
+          console.log(result);
           res.send({
               "code": 200,
               "success": "user no found"
@@ -80,12 +92,15 @@ const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?r
     };
 
     MongoClient.connect(url, function(err, db) {
-      if (err) throw err;
-      var dbo = db.db("mydb");
+      if (err) {
+        console.log("Error connecting Mongo");
+        throw err;
+      }
+      var dbo = db.db("test");
       console.log(req.body.found)
 
       if (req.body.found) {
-        console.log("Deleting onw")
+        console.log("Deleting one")
         const newvalues = {$set: mydata};
         dbo.collection("dashboardwidgets").deleteOne(myquery, function(err, results) {
             if (err) {
@@ -110,6 +125,8 @@ const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?r
       }
     });
   }
+
+
   exports.updatedata = function(req,res) {
       console.log("req", req.body);
       const myquery = {userid: req.body.userid};
@@ -125,7 +142,7 @@ const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?r
       //let req.found = true;
       MongoClient.connect(url, function(err, db) {
         if (err) throw err;
-        var dbo = db.db("mydb");
+        var dbo = db.db("test");
 
         console.log("")
         console.log(req.body.found)
@@ -179,7 +196,7 @@ const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?r
       const myquery = {userid: req.query.userid};
       MongoClient.connect(url, function(err, db) {
           if (err) throw err;
-          var dbo = db.db("mydb");
+          var dbo = db.db("test");
 
           dbo.collection("dashboardwidgets").find(myquery).toArray(function(err, result) {
             if (err) {
@@ -203,7 +220,7 @@ const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?r
 //Create Colllection
 /* MongoClient.connect(url, function(err, db) {
   if (err) throw err;
-  var dbo = db.db("mydb");
+  var dbo = db.db("test");
   dbo.createCollection("dashboardwidgets", function(err, res) {
     if (err) throw err;
     console.log("Collection created!");
@@ -217,7 +234,7 @@ const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?r
 //Insert one or many
 /* MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    var dbo = db.db("mydb");
+    var dbo = db.db("test");
     var myobj = { 
         userid: "fredy", 
         userWidgetsDashboards: [
@@ -262,7 +279,7 @@ const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?r
   //Insert one or many
 /* MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    var dbo = db.db("mydb");
+    var dbo = db.db("test");
     var myobj = { 
         userid: "fredy",
         first_name: "test",
@@ -286,7 +303,7 @@ const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?r
 
  /*  MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    var dbo = db.db("mydb");
+    var dbo = db.db("test");
     dbo.collection("dashboardwidgets").findOne({}, function(err, result) {
       if (err) throw err;
       console.log(result.userWidgetsDashboards[0]);
@@ -306,7 +323,7 @@ const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?r
 
 /* MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    var dbo = db.db("mydb");
+    var dbo = db.db("test");
     dbo.collection("customers").find({}).toArray(function(err, result) {
       if (err) throw err;
       console.log(result);
@@ -319,7 +336,7 @@ const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?r
 
 /* MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    var dbo = db.db("mydb");
+    var dbo = db.db("test");
     dbo.collection("customers").find({}, { projection: { _id: 0, name: 1, address: 1 } }).toArray(function(err, result) {
       if (err) throw err;
       console.log(result);
@@ -331,7 +348,7 @@ const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?r
 
 /*   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    var dbo = db.db("mydb");
+    var dbo = db.db("test");
     var query = { address: "Park Lane 38" };
     dbo.collection("customers").find(query).toArray(function(err, result) {
       if (err) throw err;
@@ -344,7 +361,7 @@ const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?r
 
 /*   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    var dbo = db.db("mydb");
+    var dbo = db.db("test");
     var query = { address: /^S/ };
     dbo.collection("customers").find(query).toArray(function(err, result) {
       if (err) throw err;
@@ -359,7 +376,7 @@ const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?r
 
 /*   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    var dbo = db.db("mydb");
+    var dbo = db.db("test");
     var myquery = { address: 'Mountain 21' };
     dbo.collection("customers").deleteOne(myquery, function(err, obj) {
       if (err) throw err;
@@ -371,7 +388,7 @@ const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?r
   //Delete Many
 /*   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    var dbo = db.db("mydb");
+    var dbo = db.db("test");
     var myquery = { address: /^O/ };
     dbo.collection("customers").deleteMany(myquery, function(err, obj) {
       if (err) throw err;
@@ -383,7 +400,7 @@ const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?r
   //Drop collection
 /*   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    var dbo = db.db("mydb");
+    var dbo = db.db("test");
     dbo.collection("customers").drop(function(err, delOK) {
       if (err) throw err;
       if (delOK) console.log("Collection deleted");
@@ -394,7 +411,7 @@ const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?r
   //Update document
 /*   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    var dbo = db.db("mydb");
+    var dbo = db.db("test");
     var myquery = { address: "Valley 345" };
     var newvalues = { $set: {name: "Mickey", address: "Canyon 123" } };
     dbo.collection("customers").updateOne(myquery, newvalues, function(err, res) {
@@ -408,7 +425,7 @@ const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?r
 
   /* MongoClient.connect(url, function(err, db) {
   if (err) throw err;
-  var dbo = db.db("mydb");
+  var dbo = db.db("test");
   var myquery = { address: /^S/ };
   var newvalues = {$set: {name: "Minnie"} };
   dbo.collection("customers").updateMany(myquery, newvalues, function(err, res) {
@@ -421,7 +438,7 @@ const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?r
 //limit
 /* MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    var dbo = db.db("mydb");
+    var dbo = db.db("test");
     dbo.collection("customers").find().limit(5).toArray(function(err, result) {
       if (err) throw err;
       console.log(result);
@@ -433,7 +450,7 @@ const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?r
 
   /* MongoClient.connect(url, function(err, db) {
   if (err) throw err;
-  var dbo = db.db("mydb");
+  var dbo = db.db("test");
   dbo.collection('orders').aggregate([
     { $lookup:
        {

@@ -1,13 +1,13 @@
 var MongoClient = require('mongodb').MongoClient;
 
 //var url = "mongodb://localhost:27017/dashboardwidgets";
-//var url = "mongodb://localhost:27017/";
+var url = "mongodb://localhost:27017";
 //var url = "mongodb://http://ec2-18-224-138-251.us-east-2.compute.amazonaws.com:27017/"
-const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?retryWrites=true&w=majority";
+//const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?retryWrites=true&w=majority";
 
 /* MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    var dbo = db.db("mydb");
+    var dbo = db.db("test");
     dbo.collection("datasource").drop(function(err, delOK) {
       if (err) throw err;
       if (delOK) console.log("Collection deleted");
@@ -15,21 +15,21 @@ const url = "mongodb+srv://prophesier:Fgj1981!@cluster0-putwc.mongodb.net/test?r
     });
   }); */
 
-MongoClient.connect(url, function(err, db) {
+/* MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    var dbo = db.db("mydb");
+    var dbo = db.db("test");
     dbo.collection("datasource").find({}).toArray(function(err, result) {
       if (err) throw err;
       console.log("find all")
       console.log(result);
       db.close();
     });
-  });
+  }); */
 
   /*
 MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    var dbo = db.db("mydb");
+    var dbo = db.db("test");
     dbo.collection("datasource").find({userid: "test"}).toArray(function(err, result) {
       if (err) throw err;
       console.log("find one")
@@ -47,7 +47,7 @@ exports.loaddata = function(req,res) {
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     
-    var dbo = db.db("mydb");
+    var dbo = db.db("test");
     dbo.collection("datasource").find(myquery).toArray(function(err, result) {
       if (err) throw err;
       console.log(result);
@@ -97,7 +97,7 @@ exports.updatedata = function(req,res) {
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
 
-      var dbo = db.db("mydb");
+      var dbo = db.db("test");
       console.log("")
       console.log(req.body.found)
       if (req.body.found) {
@@ -151,7 +151,7 @@ exports.updatedata = function(req,res) {
     const myquery = {userid: req.query.userid};
     MongoClient.connect(url, function(err, db) {
         if (err) throw err;
-        var dbo = db.db("mydb");
+        var dbo = db.db("test");
 
         dbo.collection("datasource").find(myquery).toArray(function(err, result) {
           if (err) {
