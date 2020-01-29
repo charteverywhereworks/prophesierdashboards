@@ -201,8 +201,8 @@ var url = "mongodb://localhost:27017";
           dbo.collection("dashboardwidgets").find(myquery).toArray(function(err, result) {
             if (err) {
               res.send({
-                  "code": 204,
-                  "result": "No files found",
+                  "code": 400,
+                  "result": "error ocurred",
                   "error": err
               })
             } else {
