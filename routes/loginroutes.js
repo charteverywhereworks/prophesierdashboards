@@ -127,6 +127,9 @@ exports.login = function(req,res) {
   var password = req.body.password;
   var role = req.body.role;
   console.log("Attempting to connect to Mongo")
+
+  //req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // Cookie expires after 30 days
+
   MongoClient.connect(url, function(err, db) {
     console.log("Connecting MongoClient")
     if (err) {
