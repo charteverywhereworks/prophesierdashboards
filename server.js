@@ -23,8 +23,13 @@ var app = express();
 
 app.use(cookieParser('82e4e438a0705fabf61f9854e3b575af'));
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+
+app.use(bodyParser.urlencoded({ 
+    extended: true,
+    limit: '50mb',
+    parameterLimit:50000
+}));
+app.use(bodyParser.json({limit: '50mb'}));
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
